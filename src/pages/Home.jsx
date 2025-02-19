@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getRestaurants } from "../api/restaurantAPI";
-import RestaurantList from "../components/RestaurantList"; // Gunakan RestaurantList, bukan RestaurantCard
+import RestaurantList from "../components/RestaurantList";
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -8,6 +8,7 @@ function Home() {
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(8); // Menampilkan 8 restoran awal
 
   useEffect(() => {
     async function fetchData() {
@@ -21,24 +22,27 @@ function Home() {
   const filteredRestaurants = restaurants.filter((restaurant) => {
     if (openNow && !restaurant.isOpen) return false;
     if (selectedPrice && restaurant.priceRange !== selectedPrice) return false;
-    if (selectedCategory && restaurant.category !== selectedCategory) return false;
+    if (selectedCategory && !restaurant.categories.includes(selectedCategory)) return false;
     return true;
   });
 
   return (
     <div className="container mx-5">
-      {/* Judul di kiri */}
+      {/* Judul */}
       <div className="font-poppins text-gray-900">
         <h1 className="text-[50px] font-regular">Restaurant</h1>
-        <p className="text-lg">Nikmati makanan favoritmu dengan tampilan elegan!</p>
+        <p className="text-lg">
+          Please choose your favorite restaurant and enjoy a variety of delicious dishes with an unforgettable dining experience. 
+          Find the perfect place that matches your taste and desired ambiance! 🍽️✨
+        </p>
       </div>
 
-      {/* Filter di tengah, "Filter By" di kiri, dan "Clear All" di kanan */}
+      {/* Filter */}
       <div className="border-t border-b mb-4 mt-2 flex items-center justify-between py-2">
         <div className="flex items-center gap-3">
           <span className="font-semibold">Filter By :</span>
 
-          {/* Open Now Checkbox (Rounded) */}
+          {/* Open Now */}
           <label className="flex items-center cursor-pointer">
             <input
               type="checkbox"
@@ -49,19 +53,19 @@ function Home() {
             Open Now
           </label>
 
-          {/* Price Dropdown */}
+          {/* Price */}
           <select
             value={selectedPrice}
             onChange={(e) => setSelectedPrice(e.target.value)}
             className="border px-2 py-1 rounded"
           >
             <option value="">Price</option>
-            <option value="$">Murah</option>
-            <option value="$$">Sedang</option>
-            <option value="$$$">Mahal</option>
+            <option value="$">Affordable</option>
+            <option value="$$">Moderate</option>
+            <option value="$$$">Expensive</option>
           </select>
 
-          {/* Categories Dropdown */}
+          {/* Categories */}
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -74,21 +78,39 @@ function Home() {
           </select>
         </div>
 
-        {/* Clear All Button */}
+        {/* Clear All */}
         <button
           onClick={() => {
             setOpenNow(false);
             setSelectedPrice("");
             setSelectedCategory("");
           }}
-          className="text-red-500 underline"
+          className="text-gray-400 border border-gray-400 px-3 py-1 rounded-md hover:bg-gray-100"
         >
-          Clear All
+          CLEAR ALL
         </button>
       </div>
 
-      {/* Daftar Restoran (Menggunakan RestaurantList) */}
-      {loading ? <p>Loading...</p> : <RestaurantList restaurants={filteredRestaurants} />}
+      {/* Daftar Restoran */}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <RestaurantList restaurants={filteredRestaurants.slice(0, visibleCount)} />
+
+          {/* Tombol Load More */}
+          {visibleCount < filteredRestaurants.length && (
+            <div className="flex justify-center mt-4">
+              <button
+                onClick={() => setVisibleCount(visibleCount + 8)}
+                className="border border-blue-900 px-5 py-2 rounded-md w-[500px] hover:bg-gray-100"
+              >
+                LOAD MORE
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
