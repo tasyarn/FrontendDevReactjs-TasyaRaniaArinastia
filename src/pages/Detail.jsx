@@ -31,7 +31,7 @@ function Detail() {
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [randomLocation, setRandomLocation] = useState(getRandomLocation());
+  const [randomLocation] = useState(getRandomLocation());
   const [address, setAddress] = useState("Loading address...");
 
   useEffect(() => {
