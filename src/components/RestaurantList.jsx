@@ -1,17 +1,13 @@
-import RestaurantItem from "./RestaurantItem";
+import RestaurantCard from "./RestaurantCard";
 
-function RestaurantList({ restaurants }) {
+const RestaurantList = ({ restaurants }) => {
   return (
-    <div>
-      {restaurants.length === 0 ? (
-        <p>Tidak ada restoran yang ditemukan.</p>
-      ) : (
-        restaurants.map((restaurant) => (
-          <RestaurantItem key={restaurant.id} restaurant={restaurant} />
-        ))
-      )}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {restaurants.map((restaurant) => (
+        <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+      ))}
     </div>
   );
-}
+};
 
 export default RestaurantList;

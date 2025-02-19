@@ -22,8 +22,8 @@ function Detail() {
   return (
     <div className="container">
       <h1>{restaurant.name}</h1>
-      <img src={restaurant.photos[0]} alt={restaurant.name} width="200" />
-      <p>Kategori: {restaurant.categories[0]}</p>
+      <img src={restaurant.photos[0]} alt={restaurant.name} width="300" />
+      <p>Kategori: {restaurant.categories}</p>
       <p>Rating: {restaurant.rating} ⭐</p>
       <p>Harga: {restaurant.priceRange}</p>
       <p>Status: {restaurant.isOpen ? "Buka" : "Tutup"}</p>
