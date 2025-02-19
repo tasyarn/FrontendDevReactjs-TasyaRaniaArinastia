@@ -51,8 +51,18 @@ export const getRestaurantById = async (id) => {
       priceRange: ["$", "$$", "$$$"][index % 3],
       isOpen: Math.random() > 0.5,
       reviews: [
-        { name: "User1", rating: 4, text: "Makanannya enak!" },
-        { name: "User2", rating: 5, text: "Pelayanan sangat baik." }
+        {
+          name: "User 1",
+          rating: 4.5,
+          text: "Makanannya enak dan tempatnya nyaman!",
+          image: "https://randomuser.me/api/portraits/women/2.jpg"
+        },
+        {
+          name: "User 2",
+          rating: 5,
+          text: "Pelayanan cepat dan ramah!",
+          image: "https://randomuser.me/api/portraits/men/10.jpg"
+        }
       ],
     };
   } catch (error) {
